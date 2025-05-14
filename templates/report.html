@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Аналітичний звіт GNN</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>🐜 Аналітичний GNN-звіт про колонію мурах</h1>
+
+  <h2>📄 Текстовий звіт</h2>
+  <details open>
+    <summary>🔍 Опис графа та статистика</summary>
+    <pre>{{ log }}</pre>
+  </details>
+
+  <h2>📈 Візуалізації</h2>
+  {% for img in images %}
+    <div class="image-block">
+      <img src="data:image/png;base64,{{ img }}" alt="Graph or Analysis Plot">
+      <div class="caption">
+        {% if loop.index0 == 0 %}
+          📍 Субграф мурашника (кольори за мітками)
+        {% elif loop.index0 == 1 %}
+          📈 Розподіл ступеня вузлів
+        {% elif loop.index0 == 2 %}
+          🔁 Розподіл коефіцієнтів кластеризації
+        {% elif loop.index0 % 2 == 1 %}
+          🌐 t-SNE (True Labels) — {{ (loop.index0 - 3) // 2 + 1 }} модель
+        {% else %}
+          🌐 t-SNE (Predicted Labels) — {{ (loop.index0 - 4) // 2 + 1 }} модель
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
+  <footer>
+    Розроблено з використанням Flask, NetworkX, PyTorch Geometric, Seaborn, Matplotlib
+  </footer>
+</body>
+</html>
